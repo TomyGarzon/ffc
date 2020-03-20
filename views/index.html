@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="FreeCodeCamp APIs and Microservices Projects - Exercise Tracker Microservice" />
+    <link href="/styles.css" rel="stylesheet" type="text/css">
+    <title>Exercise Tracker Microservice</title>
+  </head>
+  <body>
+    <main>
+      <header>
+        <h1>API Project: Exercise Tracker Microservice</h1>
+      </header>
+      <section>
+        <div class="form-container">
+          <h3>Create a new user</h3>
+          <p class="usage">POST /api/exercise/new-user</p>
+          <form method="POST" action="/api/exercise/new-user">
+            <input type="text" name="username" id="username" placeholder="Username" required/>
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+      </section>
+      <section>
+        <div class="form-container">
+          <h3>Add Exercise</h3>
+          <p class="usage">POST /api/exercise/add</p>
+          <form method="POST" action="/api/exercise/add">
+            <input type="text" name="userId" id="userId" placeholder="User ID *" required/>
+            <input type="text" name="description" id="description" placeholder="Description *" required/>
+            <input type="text" name="duration" id="duration" placeholder="Duration (in minutes) *" required>
+            <input type="text" name="date" id="date" placeholder="Date (yyyy-mm-dd) *" required>
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+      </section>
+      <section>
+        <p><b>GET users's exercise log:</b>&nbsp;&nbsp;<code>GET /api/exercise/log?{userId}[&from][&to][&limit]</code></p>
+        <p><b>{ }</b> = required, <b>[ ]</b> = optional</p>
+        <p><b>from, to</b> = dates (yyyy-mm-dd); <b>limit</b> = number</p>
+      </section>
+      <footer>
+        <p>By <a href="https://www.freecodecamp.org/" target="__blank">freeCodeCamp</a></p>
+        <p>
+          <span>Check live on <a href="https://i-anshuman-exercise-tracker-microservice.glitch.me" target="__blank">Glitch</a></span>
+          <span>Check source on <a href="https://github.com/i-anshuman/exercise-tracker" target="__blank">Github</a></span>
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>
