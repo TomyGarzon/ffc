@@ -19,4 +19,11 @@ const addUser = (username, callback) => {
   });
 }
 
-module.exports = { addUser };
+const getUsers = (callback) => {
+  User.find({}, (err, users) => {
+    if (err) callback({error: err});
+    callback(users);
+  });
+}
+
+module.exports = { addUser, getUsers };
