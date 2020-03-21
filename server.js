@@ -19,6 +19,11 @@ mongoose.connect(process.env.MONGO_URL, {
 });
 
 app.get('/', async (req, res) => {
+  const user = require('./models/user');
+  const exercise = require('./models/exercise');
+  console.log(await user.find());
+  console.log(await exercise.find());
+  //await exercise.deleteMany();
   res.sendFile(__dirname + "/views/index.html");
 });
 
@@ -72,7 +77,20 @@ app.post('/api/exercise/add', (req, res) => {
   });
 });
 
+app.get('/api/exercise/users', (req, res) => {
+  const {getUsers} = require('./controller/user');
+  getUsers((users) => {
+    res.json(users);
+  });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+/*
+Create User: {"username":"textuser","_id":"Syimb8mUI"}
+Add Exrecise: {"username":"qwerty123456789","description":"A pseudo description","duration":60,"_id":"rkoeNw9BI","date":"Tue Dec 15 2020"}
+Log: {"_id":"rkoeNw9BI","username":"qwerty123456789","count":0,"log":[]}
+iDfxgfUyA
+*/
