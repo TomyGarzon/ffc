@@ -5,7 +5,7 @@ const user = new Schema({
   username: {
     type: String,
     required: true,
-    maxlength: 20,
+    maxlength: [20, 'username too long'],
     unique: true
   },
   _id: {
