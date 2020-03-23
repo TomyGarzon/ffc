@@ -18,12 +18,7 @@ mongoose.connect(process.env.MONGO_URL, {
   useUnifiedTopology: true
 });
 
-app.get('/', async (req, res) => {
-  const user = require('./models/user');
-  const exercise = require('./models/exercise');
-  console.log(await user.find());
-  console.log(await exercise.find());
-  //await exercise.deleteMany();
+app.get('/', (req, res) => {
   res.sendFile(__dirname + "/views/index.html");
 });
 
@@ -72,9 +67,11 @@ app.post('/api/exercise/add', (req, res) => {
   if (Object.keys(errors).length !== 0) {
     res.json({ errors: errors });
   }
-  addExercise(userID, description, duration, date, (result) => {
-    res.json(result);
-  });
+  else {
+    addExercise(userID, description, duration, date, (result) => {
+      res.json(result);
+    });
+  }
 });
 
 app.get('/api/exercise/users', (req, res) => {
@@ -84,13 +81,30 @@ app.get('/api/exercise/users', (req, res) => {
   });
 });
 
+app.get('/api/exercise/log', (req, res) => {
+  let { userId, from, to, limit } = req.query;
+  if (userId === "" || !userId) {
+    res.json({ error: "Invalid user id." });
+  }
+  if (!(/^\d{4}-\d{2}-\d{2}$/.test(from)) || (new Date(from).toDateString() === "Invalid Date")) {
+    from = 0;
+  }
+  else {
+    from = new Date(from).getTime();
+  }
+  if (!(/^\d{4}-\d{2}-\d{2}$/.test(to)) || (new Date(to).toDateString() === "Invalid Date")) {
+    to = Date.now();
+  }
+  else {
+    to = new Date(to).getTime();
+  }
+  const { getLog } = require('./controller/log');
+  getLog(userId, from, to, parseInt(limit), (logs) => {
+    res.json({ logs });
+  });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
-/*
-Create User: {"username":"textuser","_id":"Syimb8mUI"}
-Add Exrecise: {"username":"qwerty123456789","description":"A pseudo description","duration":60,"_id":"rkoeNw9BI","date":"Tue Dec 15 2020"}
-Log: {"_id":"rkoeNw9BI","username":"qwerty123456789","count":0,"log":[]}
-iDfxgfUyA
-*/
